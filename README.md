@@ -2,9 +2,20 @@
 
 **用眼之间，留一段空白。 A pause between screen time.**
 
-Breather 是面向 macOS 和 Windows 的本地用眼时长记录与休息提醒应用。Mac 使用 SwiftUI/AppKit，Windows 使用 Electron 托盘应用。无需订阅，下载包免费使用；源码公开可查，但本仓库目前未授予开源许可证，请勿将“公开源码”理解为任意再分发许可。
+Breather 是面向 macOS 和 Windows 的本地用眼时长记录与休息提醒应用。Mac 使用 SwiftUI/AppKit，Windows 使用 Electron 托盘应用。无需订阅，下载包免费使用。本项目的原创源码与文档已按 [MIT License](LICENSE) 开源，允许使用、修改、分发和商用，但须保留版权与许可声明；第三方依赖保持各自许可证。
 
-Breather is a local eye-break reminder and screen-time companion for macOS and Windows. Downloadable binaries are free of charge, without a subscription. Source is available for inspection; no open-source license has been assigned.
+Breather is a local eye-break reminder and screen-time companion for macOS and Windows. Downloadable binaries are free of charge, without a subscription. Original project source and documentation are open source under the [MIT License](LICENSE). Use, modify, redistribute and use commercially while retaining the copyright/license notice. Third-party components retain their own licenses.
+
+## 开源仓库 / Open-source repository
+
+**[GitHub · Breather](https://github.com/hhf666feng/Breather)** · [MIT 许可证](LICENSE) · [参与贡献](CONTRIBUTING.md) · [Issues / 问题反馈](https://github.com/hhf666feng/Breather/issues) · [第三方声明](THIRD_PARTY_NOTICES.md)
+
+```sh
+git clone https://github.com/hhf666feng/Breather.git
+cd Breather
+```
+
+技术栈：原生 macOS SwiftUI / AppKit、Windows Electron、Python 静态官网。构建步骤见下方。欢迎修复、翻译、测试和文档贡献；不要在公开 Issue 中提交个人备份或敏感数据。
 
 ## 官网 / Website
 
@@ -36,6 +47,7 @@ The “fatigue” indicator is a timer-based estimate, not a medical measurement
 
 官网为无第三方脚本的静态页面；GitHub 托管／下载服务仍可能记录其基础访问日志。
 
+<a id="build-and-test"></a>
 ## 构建与测试 / Build and test
 
 Mac: Swift 5.9+, macOS 13+.

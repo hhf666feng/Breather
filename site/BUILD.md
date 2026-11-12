@@ -20,7 +20,7 @@
 - Create tools/build_site.py. Read siteUrl/repositoryUrl/macVersion/windowsVersion from public-config.json, not hardcoded deployment URLs.
 - Emit Chinese root and English en/ home, download/, faq/, privacy/, guidance/20-20-20/ pages. Include indexable visible copy, explicit platform limits and unsigned-install notices.
 - Emit site/assets/style.css, sitemap.xml, llms.txt, facts.md and informational robots.txt. Keep supplied logo.png, mac-dashboard.png and windows-dashboard.png unchanged.
-- Add SoftwareApplication entities for separate native macOS and Electron Windows products with separate versions and download links; declare free offers with explicit USD currency. Never add ratings, review, medical efficacy, or license claims.
+- Add SoftwareApplication entities for separate native macOS and Electron Windows products with separate versions and download links; declare free offers with explicit USD currency. Never add fabricated ratings, reviews or medical efficacy claims. After owner authorization, original source/documentation is MIT-licensed; keep LICENSE links and SoftwareSourceCode metadata accurate, without relicensing third-party dependencies.
 - Keep all font/script/image loads local; no external analytics.
 
 ## Task 3 — Verify and freeze

@@ -62,6 +62,42 @@ class SiteContract(unittest.TestCase):
                      for prefix in ['', 'en/'] for route in ROUTES
                      if (SITE / (prefix + route) / 'index.html').exists()}
 
+    def test_mit_license_and_repository_information_are_prominent(self):
+        repo = self.config['repositoryUrl']
+        license_url = repo + '/blob/main/LICENSE'
+        self.assertTrue((ROOT / 'LICENSE').is_file(), 'MIT license has not been published')
+        self.assertIn('MIT License', (ROOT / 'LICENSE').read_text())
+        self.assertIn('Permission is hereby granted, free of charge', (ROOT / 'LICENSE').read_text())
+        for name in ['CONTRIBUTING.md', 'THIRD_PARTY_NOTICES.md']:
+            self.assertTrue((ROOT / name).is_file())
+        for name in ['desktop/package.json', 'desktop/package-lock.json']:
+            package = json.loads((ROOT / name).read_text())
+            self.assertEqual(package['packages']['']['license'] if 'packages' in package else package['license'], 'MIT')
+        for prefix in ['', 'en/']:
+            home = (SITE / prefix / 'index.html').read_text()
+            page = self.pages[prefix]
+            self.assertIn('MIT', home)
+            self.assertIn('id="source"', home)
+            for url in [repo, license_url, repo + '/issues', repo + '/blob/main/CONTRIBUTING.md']:
+                self.assertIn(url, [a.get('href') for t, a in page.tags if t == 'a'])
+            header = home.split('</header>', 1)[0]
+            self.assertIn(repo, header, 'Repository must be visible in top navigation')
+        for route, page in self.pages.items():
+            for app in [x for x in page.jsonld[0]['@graph'] if x['@type'] == 'SoftwareApplication']:
+                self.assertEqual(app['license'], license_url)
+                self.assertEqual(app['isBasedOn'], {'@id': self.base + '#source'})
+            source = next(x for x in page.jsonld[0]['@graph'] if x['@type'] == 'SoftwareSourceCode')
+            self.assertEqual(source['codeRepository'], repo)
+            self.assertEqual(source['license'], license_url)
+        for name in ['facts.md', 'llms.txt']:
+            text = (SITE / name).read_text()
+            self.assertIn('MIT', text)
+            self.assertIn(license_url, text)
+        for file in SITE.rglob('*'):
+            if file.suffix not in ('.html', '.md', '.txt'): continue
+            for stale in ['no open-source license has been assigned', 'no license claim is made', '不作开源授权声明', '免费使用不代表仓库附带开源许可证']:
+                self.assertNotIn(stale, file.read_text(), str(file))
+
     def test_generator_exists(self):
         self.assertTrue((ROOT / 'tools/build_site.py').is_file(), 'Static generator is not implemented')
 
@@ -135,7 +171,7 @@ class SiteContract(unittest.TestCase):
                     self.assertEqual(app['offers']['priceCurrency'], 'USD')
                     self.assertTrue(app['downloadUrl'].startswith(self.config['repositoryUrl'] + '/releases/download/'))
                 packed = json.dumps(graph)
-                for forbidden in ['aggregateRating', 'ratingValue', 'review', 'license', 'medicalSpecialty']:
+                for forbidden in ['aggregateRating', 'ratingValue', 'review', 'medicalSpecialty']:
                     self.assertNotIn('"' + forbidden + '"', packed)
 
     def test_downloads_match_release_artifacts(self):

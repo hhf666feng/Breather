@@ -5,7 +5,11 @@
 - Category: desktop eye break reminder / 桌面眼睛休息提醒.
 - macOS: version 1.6.2; native Swift/SwiftUI; Apple Silicon; macOS 13 or later. No Intel release package.
 - Windows: version 1.6.0; x64; Electron 45.3.0. No native ARM64 or 32-bit package.
-- Cost: current desktop binaries are free, no subscriptions, no app account required. Free distribution is not an open-source licensing grant; no license claim is made here.
+- Cost: current desktop binaries are free, no subscriptions, no app account required. Original source and documentation are MIT-licensed; third-party dependencies keep their own licenses.
+- License: https://github.com/hhf666feng/Breather/blob/main/LICENSE
+- Contributions: https://github.com/hhf666feng/Breather/blob/main/CONTRIBUTING.md
+- Issues: https://github.com/hhf666feng/Breather/issues
+- Technology: native macOS SwiftUI/AppKit; Windows Electron; Python static site.
 - macOS download: https://github.com/hhf666feng/Breather/releases/download/v1.6.2/Breather-macOS-1.6.2.zip
 - Windows installer: https://github.com/hhf666feng/Breather/releases/download/v1.6.0/Breather-1.6.0-x64-setup.exe
 - Windows portable: https://github.com/hhf666feng/Breather/releases/download/v1.6.0/Breather-1.6.0-x64-portable.exe

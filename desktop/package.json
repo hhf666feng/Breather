@@ -4,7 +4,7 @@
   "private": true,
   "description": "Breather — a local, privacy-preserving Windows screen-break companion",
   "author": "Breather",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "main": "main.cjs",
   "engines": { "node": ">=22" },
   "scripts": {

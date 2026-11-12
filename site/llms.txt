@@ -4,6 +4,9 @@
 
 Official website: https://hhf666feng.github.io/Breather/
 Public repository: https://github.com/hhf666feng/Breather
+License: MIT for original source/documentation; third-party licenses remain separate. https://github.com/hhf666feng/Breather/blob/main/LICENSE
+Contributing: https://github.com/hhf666feng/Breather/blob/main/CONTRIBUTING.md
+Issues: https://github.com/hhf666feng/Breather/issues
 Current macOS version: 1.6.2. Current Windows version: 1.6.0 (Electron 45.3.0).
 
 Data is local by default. Mac users can opt into an automatic backup folder; the app updates EyeWatch-backup.json about every 30 seconds and on key actions. If iCloud Drive is selected, the operating system may sync that file automatically. There is no built-in account, CloudKit cross-device merging or iPhone app.
@@ -19,4 +22,4 @@ Data is local by default. Mac users can opt into an automatic backup folder; the
 - [Product facts](https://hhf666feng.github.io/Breather/facts.md): Concise cross-language facts and exact release links.
 - [Sitemap](https://hhf666feng.github.io/Breather/sitemap.xml): All ten Chinese/English canonical pages.
 
-No ratings, testimonials, open-source licensing or guaranteed medical benefits are asserted. Discovery files do not guarantee crawler use or search/AI visibility. Project-path robots.txt is informational, not an origin-root policy.
+MIT applies to original project source and documentation; third-party dependencies retain their licenses. No fabricated ratings, testimonials or guaranteed medical benefits are asserted. Discovery files do not guarantee crawler use or search/AI visibility. Project-path robots.txt is informational, not an origin-root policy.
