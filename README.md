@@ -61,7 +61,7 @@ Site: Python 3 standard library, no frontend dependencies.
 
 ```sh
 python3 tools/build_site.py
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s Tests -v
 ```
 
 ## 关于此公开仓库

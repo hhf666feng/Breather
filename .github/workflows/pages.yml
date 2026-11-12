@@ -6,7 +6,7 @@ on:
     paths:
       - 'site/**'
       - 'tools/build_site.py'
-      - 'tests/**'
+      - 'Tests/test_site.py'
       - 'public-config.json'
       - '.github/workflows/pages.yml'
 permissions:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tools/build_site.py
-      - run: python3 -m unittest discover -s tests -v
+      - run: python3 -m unittest discover -s Tests -v
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

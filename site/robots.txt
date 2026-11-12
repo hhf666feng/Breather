@@ -1,0 +1,4 @@
+# This project-path robots.txt is informational only.
+# Robots rules are authoritative only at the origin's /robots.txt.
+# This GitHub Pages project does not control that origin-root policy.
+# Sitemap for discovery: https://hhf666feng.github.io/Breather/sitemap.xml

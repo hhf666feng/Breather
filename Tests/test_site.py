@@ -2,9 +2,7 @@
 import importlib.util
 import json
 from pathlib import Path
-import re
-import subprocess
-import sys
+import struct
 import tempfile
 import unittest
 from html.parser import HTMLParser
@@ -177,6 +175,24 @@ class SiteContract(unittest.TestCase):
         english = (SITE / 'en/faq/index.html').read_text()
         for fact in ['gaze', 'iPhone', 'cloud', 'medical']:
             self.assertIn(fact, english)
+
+    def test_home_screenshots_identify_demonstration_data(self):
+        for route, marker in [('', '演示'), ('en/', 'Demo')]:
+            text = (SITE / route / 'index.html').read_text()
+            self.assertGreaterEqual(text.count(marker), 3)
+            self.assertNotIn('轻量', text)
+
+    def test_image_dimensions_match_supplied_pngs(self):
+        for route, page in self.pages.items():
+            for tag, attrs in page.tags:
+                if tag != 'img': continue
+                path = SITE / attrs['src'].removeprefix(urlsplit(self.base).path)
+                data = path.read_bytes()
+                self.assertTrue(data.startswith(b'\x89PNG'))
+                actual_width, actual_height = struct.unpack('>II', data[16:24])
+                width, height = int(attrs['width']), int(attrs['height'])
+                with self.subTest(route=route, image=path.name):
+                    self.assertAlmostEqual(width / height, actual_width / actual_height, places=4)
 
     def test_generator_supports_other_project_base_and_is_deterministic(self):
         path = ROOT / 'tools/build_site.py'
