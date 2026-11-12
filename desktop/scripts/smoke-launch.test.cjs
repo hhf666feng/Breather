@@ -1,0 +1,31 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const os = require('node:os');
+
+test('packaged smoke CLI requires an existing absolute regular exe and forwards only native smoke flags', t => {
+  const helper = path.join(__dirname, 'smoke-launch.cjs');
+  assert.ok(fs.existsSync(helper), 'packaged smoke launch validator must exist');
+  const { resolveSmokeLaunch } = require(helper);
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'breather-launch-contract-'));
+  t.after(() => { assert.ok(path.basename(directory).startsWith('breather-launch-contract-')); fs.rmSync(directory, { recursive: true, force: true }); });
+  const binary = path.join(directory, 'Breather.exe');
+  fs.writeFileSync(binary, 'fixture only, never executed');
+  const output = path.join(directory, 'reports');
+  const packaged = resolveSmokeLaunch(output, ['--binary', binary, '--language-en', '--smoke-compact']);
+  assert.equal(packaged.executable, binary);
+  assert.deepEqual(packaged.arguments, ['--smoke-test', output, '--language-en', '--smoke-compact']);
+  const normal = resolveSmokeLaunch(output, ['--language-en']);
+  assert.equal(normal.executable, process.execPath);
+  assert.ok(normal.arguments[0].endsWith(path.join('electron', 'cli.js')));
+  assert.ok(normal.arguments.includes('--smoke-test'));
+  assert.throws(() => resolveSmokeLaunch(output, ['--binary', 'relative.exe']), /absolute/i);
+  assert.throws(() => resolveSmokeLaunch(output, ['--binary', path.join(directory, 'missing.exe')]));
+  const folder = path.join(directory, 'directory.exe'); fs.mkdirSync(folder);
+  assert.throws(() => resolveSmokeLaunch(output, ['--binary', folder]), /regular/i);
+  assert.throws(() => resolveSmokeLaunch(output, ['--binary', __filename]), /exe/i);
+  assert.throws(() => resolveSmokeLaunch(output, ['--binary']), /absolute/i);
+  assert.throws(() => resolveSmokeLaunch(output, ['--arbitrary-flag']), /unknown/i);
+});

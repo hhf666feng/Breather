@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">目间 · Mujian</title>
+  <desc id="desc">纸白圆角底上的墨色开窗。左侧目字双横成为窗格，右下留白以一条赭红短线标出用眼间隔。</desc>
+  <rect x="64" y="64" width="896" height="896" rx="192" fill="#F8F7F4"/>
+  <path fill="#242523" fill-rule="evenodd" d="M256 256 H768 V544 H704 V320 H544 V704 H576 V768 H256 Z M320 320 H480 V400 H320 Z M320 448 H480 V576 H320 Z M320 624 H480 V704 H320 Z"/>
+  <path fill="#A34F37" d="M640 704 H768 V768 H640 Z"/>
+</svg>

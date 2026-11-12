@@ -1,0 +1,9 @@
+.build/
+.swiftpm/
+.DS_Store
+dist/
+desktop/node_modules/
+desktop/dist/
+desktop/.cache/
+__pycache__/
+*.pyc

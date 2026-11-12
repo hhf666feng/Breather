@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>歇会儿 · Breather</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div id="loading" role="status">正在连接歇会儿 / Connecting to Breather…</div>
+  <div id="main-view" class="app" hidden>
+    <aside class="sidebar">
+      <div class="brand"><img src="./assets/logo.png" alt="" width="42" height="42"><div><strong data-bind="brand">歇会儿</strong><small data-bind="brand-sub">Breather</small></div></div>
+      <nav aria-label="主导航" data-aria-i18n="navigation">
+        <button type="button" data-page="overview" aria-current="page"><span aria-hidden="true" class="nav-icon">◷</span><span data-i18n="overview">今日</span></button>
+        <button type="button" data-page="stats"><span aria-hidden="true" class="nav-icon">⌁</span><span data-i18n="stats">用眼记录</span></button>
+        <button type="button" data-page="settings"><span aria-hidden="true" class="nav-icon">☷</span><span data-i18n="settings">偏好设置</span></button>
+      </nav>
+      <footer><p data-i18n="tagline">用眼之间，留一段空白</p><small data-i18n="localRecords">记录保存在此电脑</small><small data-bind="version"></small></footer>
+    </aside>
+    <main id="content" tabindex="-1">
+      <header class="page-header"><div><h1 data-bind="page-title">今日</h1><p data-bind="date"></p></div><div class="header-meta"><span class="phase"><span class="status-dot" aria-hidden="true"></span><span data-bind="phase"></span></span><span data-bind="page-subtitle"></span></div></header>
+      <div id="error-banner" class="notice error" role="alert" hidden><span data-bind="error"></span><button type="button" data-command="dismiss-error" data-i18n="dismiss">关闭</button></div>
+      <p id="action-status" class="action-status" role="status"></p>
+      <section id="page-overview" aria-label="今日" data-aria-i18n="overview">
+        <div class="overview-grid">
+          <section class="strain"><div class="section-heading"><h2 data-i18n="strain">当前用眼负荷</h2><span class="information" tabindex="0" data-title-i18n="strainInfo" data-aria-i18n="strainInfo" role="note">ⓘ</span></div>
+            <div class="strain-value"><span data-bind="fatigue">—</span><span>/ 100</span></div>
+            <svg id="strain-gauge" class="gauge" viewBox="0 0 800 64" role="img" aria-label="当前用眼负荷"><g id="gauge-ticks"></g><line id="gauge-marker" x1="0" x2="0" y1="2" y2="44" class="gauge-marker"/></svg>
+            <div class="scale mono"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            <div class="caption-row"><span data-i18n="estimate">估算值</span><span data-bind="threshold-note"></span></div>
+            <p class="activity-note" data-bind="activity-note"></p><p class="muted small" data-bind="activity-source"></p>
+          </section>
+          <aside class="today-metrics"><div class="metric"><p data-i18n="screenToday">今日用眼时长</p><strong data-bind="today-time">—</strong><small data-i18n="activeOnly">仅计算活跃使用</small></div><div class="metric"><p data-i18n="completion">休息完成率</p><strong data-bind="today-rate">—</strong><small data-bind="today-breaks"></small></div></aside>
+        </div>
+        <section class="timer-section"><div class="timer-row"><div><p class="muted" data-bind="timer-title"></p><div class="timer" data-bind="timer">—</div></div><div class="actions"><button type="button" data-command="pause" data-bind="pause-label"></button><button type="button" data-command="snooze" data-i18n="snooze">稍后 5 分钟</button><button type="button" data-command="skip" data-i18n="skip" hidden>跳过本次</button><button type="button" class="primary" data-command="rest" data-i18n="startBreak">开始休息</button></div></div><progress id="session-progress" max="1" value="0" data-aria-i18n="sessionProgress"></progress><div class="caption-row mono"><span data-bind="session"></span><span data-bind="rhythm"></span></div></section>
+        <section class="chart-section"><div class="section-heading"><h2 data-i18n="hourly">每小时用眼时长</h2><span data-i18n="minutesPerHour">分钟 / 小时</span></div><div id="hours-chart" class="chart"></div></section>
+      </section>
+      <section id="page-stats" aria-label="用眼记录" data-aria-i18n="stats" hidden>
+        <div class="stats-toolbar"><div class="segments" role="group" data-aria-i18n="range"><button type="button" data-range="7" aria-pressed="true" data-i18n="range7">7 天</button><button type="button" data-range="30" aria-pressed="false" data-i18n="range30">30 天</button><button type="button" data-range="90" aria-pressed="false" data-i18n="range90">90 天</button><button type="button" data-range="365" aria-pressed="false" data-i18n="range365">12 个月</button><button type="button" data-range="0" aria-pressed="false" data-i18n="rangeAll">全部</button></div><button type="button" data-command="export-csv" data-i18n="exportCSV">导出 CSV</button></div>
+        <div class="stats-metrics"><div class="metric"><p data-i18n="totalScreen">累计用眼</p><strong data-bind="stats-time">—</strong><small data-bind="stats-range"></small></div><div class="metric"><p data-i18n="breaksCompleted">完成休息</p><strong data-bind="stats-completed">—</strong><small data-bind="stats-offered"></small></div><div class="metric"><p data-i18n="completion">休息完成率</p><strong data-bind="stats-rate">—</strong><small data-i18n="notificationsExcluded">系统通知不计入</small></div></div>
+        <section class="chart-section"><div class="section-heading"><h2 data-i18n="dailyScreen">每日用眼时长</h2><span data-i18n="hours">小时</span></div><div id="daily-chart" class="chart"></div></section>
+        <section class="chart-section"><div class="section-heading"><h2 data-i18n="completion">休息完成率</h2><span data-i18n="completedOffered">完成倒计时 / 弹窗次数</span></div><div id="completion-chart" class="chart compact-chart"></div></section>
+        <section class="chart-section"><div class="section-heading"><h2 data-i18n="peak">疲劳峰值时长</h2><span data-i18n="peakDetail">达到 100 后继续用眼 / 分钟</span></div><div id="peak-chart" class="chart compact-chart"></div></section>
+      </section>
+      <section id="page-settings" aria-label="偏好设置" data-aria-i18n="settings" hidden><div id="settings-sections"></div><p class="muted small" data-i18n="autoSave">更改会自动保存</p></section>
+    </main>
+  </div>
+  <main id="rest-view" class="rest-view" hidden>
+    <img id="wallpaper" class="wallpaper" alt="" hidden>
+    <div class="rest-top"><div class="rest-brand"><img src="./assets/logo.png" alt="" width="32" height="32"><span data-bind="brand">歇会儿</span></div><span data-bind="rest-mode"></span></div>
+    <section class="rest-content"><span class="eyebrow" data-i18n="aMoment">留一点时间给眼睛</span><h1 data-bind="rest-message"></h1><div class="rest-timer" data-bind="rest-timer">—</div><p data-i18n="restHint">放下屏幕，眨眨眼，让视线走远一点。</p><progress id="rest-progress" value="0" max="1" data-aria-i18n="restProgress"></progress><p class="small" data-bind="strict-note"></p><div class="actions rest-actions"><button type="button" data-command="skip" data-i18n="skip">跳过本次</button><button type="button" data-command="snooze" data-i18n="snooze">稍后 5 分钟</button><button type="button" data-command="pause" data-i18n="pause">暂停监测</button></div></section>
+    <footer class="rest-footer"><span data-i18n="restCloseNote">关闭普通休息窗口会按跳过处理；严格休息不能关闭或最小化。</span><button type="button" data-command="quit" data-i18n="quitApp">退出歇会儿</button></footer>
+    <p id="rest-error" class="rest-error" role="status"></p>
+  </main>
+  <dialog id="challenge-dialog" aria-labelledby="challenge-title" aria-describedby="challenge-help"><form id="challenge-form"><h2 id="challenge-title" data-i18n="challengeTitle">先停一下，想一想</h2><p id="challenge-help" data-i18n="challengeHelp">完成这道计算，再继续操作。</p><label for="challenge-answer" id="challenge-question"></label><input id="challenge-answer" type="text" inputmode="numeric" autocomplete="off" required><p id="challenge-error" class="error-text" role="status"></p><div class="actions"><button type="button" data-command="cancel-challenge" data-i18n="cancel">取消</button><button type="submit" class="primary" data-i18n="confirm">确认</button></div></form></dialog>
+</body>
+</html>

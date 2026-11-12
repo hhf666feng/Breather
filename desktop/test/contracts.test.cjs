@@ -1,0 +1,11 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const contracts = require('../contracts.cjs');
+test('command allowlist covers bridge commands and rejects inherited or unknown names', () => { const expected = ['get-state','settings','pause','rest','snooze','skip','quit','export-csv','export-backup','restore-backup','choose-wallpaper','clear-wallpaper','launch-at-login','dismiss-error','answer-challenge','cancel-challenge']; assert.deepEqual(contracts.COMMANDS, expected); for (const name of expected) assert.equal(contracts.isAllowedCommand(name), true); for (const name of ['__proto__','constructor','exec','open-file',null,1]) assert.equal(contracts.isAllowedCommand(name), false); assert.ok(Object.isFrozen(contracts.COMMANDS)); });
+test('Windows shortcuts implement the complete app-scoped command set', () => assert.deepEqual(contracts.shortcutMap('win32'), { close:'Ctrl+W',minimize:'Ctrl+M',preferences:'Ctrl+,',showMain:'Ctrl+0',rest:'Ctrl+Shift+R',quit:'Ctrl+Q' }));
+test('Mac desktop shortcuts retain command conventions', () => assert.deepEqual(contracts.shortcutMap('darwin'), { close:'Command+W',minimize:'Command+M',preferences:'Command+,',showMain:'Command+0',rest:'Command+Shift+R',quit:'Command+Q' }));
+test('main close hides while minimize uses native behavior', () => { assert.equal(contracts.closePolicy({view:'main'}), 'hide'); assert.equal(contracts.closePolicy({view:'main',action:'minimize'}), 'allow'); });
+test('normal resting window close routes through skip semantics', () => { assert.equal(contracts.closePolicy({view:'rest',phase:'resting'}), 'skip'); assert.equal(contracts.closePolicy({view:'rest',phase:'resting',action:'minimize'}), 'skip'); });
+test('strict rest rejects close and minimize regardless of settings changes', () => { for (const action of ['close','minimize']) assert.equal(contracts.closePolicy({view:'rest',phase:'resting',breakIsStrict:true,action}), 'block'); });
+test('explicit quit and expired rest windows can close', () => { assert.equal(contracts.closePolicy({view:'rest',phase:'resting',breakIsStrict:true,quitting:true}), 'allow'); assert.equal(contracts.closePolicy({view:'rest',phase:'monitoring'}), 'allow'); });

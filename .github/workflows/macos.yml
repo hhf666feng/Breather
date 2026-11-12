@@ -1,0 +1,16 @@
+name: Native macOS tests
+on:
+  workflow_dispatch:
+  push:
+    paths: ['Sources/**', 'Tests/**', 'Package.swift', '.github/workflows/macos.yml']
+  pull_request:
+    paths: ['Sources/**', 'Tests/**', 'Package.swift', '.github/workflows/macos.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+      - run: bash scripts/build-app.sh

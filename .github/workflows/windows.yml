@@ -1,0 +1,83 @@
+name: Windows desktop
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/windows.yml'
+  pull_request:
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/windows.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: desktop
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - name: Install exact dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Check JavaScript and run Node tests
+        run: |
+          New-Item -ItemType Directory -Force dist/reports | Out-Null
+          npm run check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/test.cjs --report-dir dist/reports
+          exit $LASTEXITCODE
+      - name: Run real native Windows Electron smoke
+        timeout-minutes: 5
+        run: |
+          node scripts/run-smoke.cjs "$((Get-Location).Path)/dist/reports/native-zh"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/run-smoke.cjs "$((Get-Location).Path)/dist/reports/native-en" --language-en --smoke-compact
+          exit $LASTEXITCODE
+      - name: Build NSIS installer and portable x64
+        timeout-minutes: 10
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run build:win
+      - name: Run packaged Windows executable smoke
+        timeout-minutes: 3
+        run: |
+          $binary = Join-Path (Get-Location).Path 'dist/win-unpacked/Breather.exe'
+          node scripts/run-smoke.cjs "$((Get-Location).Path)/dist/reports/packaged-en" --binary "$binary" --language-en --smoke-compact
+          exit $LASTEXITCODE
+      - name: Verify Windows reports and installers
+        run: |
+          $reports = @('dist/reports/native-zh/report.json', 'dist/reports/native-en/report.json', 'dist/reports/packaged-en/report.json')
+          foreach ($report in $reports) {
+            $result = Get-Content $report -Raw | ConvertFrom-Json
+            if ($result.passed -ne $true -or $result.platform -ne 'win32') { throw "Native Windows smoke failed: $report" }
+          }
+          $packaged = Get-Content 'dist/reports/packaged-en/report.json' -Raw | ConvertFrom-Json
+          if ($packaged.packaged -ne $true) { throw 'Expected smoke to launch the built packaged executable' }
+          $installers = @(Get-ChildItem dist/Breather-1.6.0-x64-*.exe)
+          if ($installers.Count -lt 2) { throw 'Expected both NSIS and portable x64 executables' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Breather-Windows-1.6.0-x64
+          path: |
+            desktop/dist/*.exe
+            desktop/dist/*.blockmap
+            desktop/dist/reports/**
+          if-no-files-found: error
+          retention-days: 14

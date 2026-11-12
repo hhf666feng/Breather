@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">EyeWatch · 目歇</title>
+  <desc id="desc">A soft ivory eye on a rounded forest-green square, representing mindful screen breaks.</desc>
+  <defs>
+    <linearGradient id="forest" x1="0" y1="1" x2="0.6" y2="0">
+      <stop offset="0" stop-color="#21523D"/>
+      <stop offset="1" stop-color="#579163"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="960" height="960" rx="214" fill="url(#forest)"/>
+  <g fill="none" stroke="#DEF7D4" stroke-linejoin="round">
+    <path d="M188 514 C355 269 665 269 836 514 C665 759 355 759 188 514 Z" stroke-width="32"/>
+    <circle cx="512" cy="514" r="110" stroke-width="28"/>
+  </g>
+  <circle cx="512" cy="514" r="32" fill="#DEF7D4"/>
+</svg>
