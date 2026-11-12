@@ -173,8 +173,20 @@ class SiteContract(unittest.TestCase):
             self.assertTrue(privacy.is_file())
             self.assertIn('GitHub', privacy.read_text())
         english = (SITE / 'en/faq/index.html').read_text()
-        for fact in ['gaze', 'iPhone', 'cloud', 'medical']:
+        for fact in ['gaze', 'iPhone', 'iCloud Drive', 'medical']:
             self.assertIn(fact, english)
+
+    def test_opt_in_mac_backup_and_os_cloud_sync_are_disclosed(self):
+        paths = [p + r + 'index.html' for p in ['', 'en/'] for r in ['', 'download/', 'faq/', 'privacy/']]
+        paths += ['facts.md', 'llms.txt']
+        for path in paths:
+            text = (SITE / path).read_text()
+            with self.subTest(path=path):
+                for fact in ['iCloud Drive', '30', 'CloudKit']:
+                    self.assertIn(fact, text)
+                for inaccurate in ['没有云端自动同步', '无云端自动同步', 'No automatic cloud sync', 'no cloud autosync', 'no app account system or automatic cloud sync', 'exports/backups are user-initiated']:
+                    self.assertNotIn(inaccurate, text)
+        self.assertIn('class="nowrap">歇会儿', (SITE / 'index.html').read_text())
 
     def test_home_screenshots_identify_demonstration_data(self):
         for route, marker in [('', '演示'), ('en/', 'Demo')]:

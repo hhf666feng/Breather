@@ -32,7 +32,7 @@ The “fatigue” indicator is a timer-based estimate, not a medical measurement
 
 ## 隐私 / Privacy
 
-应用核心记录保存在本机，不要求账户。Mac 数据位于 `~/Library/Application Support/EyeWatch/`，Windows 位于 `%APPDATA%/BreatherWindows/`。不记录输入文字，不使用摄像头；可选屏幕变化检测在内存中处理低分辨率差异，不保存录像。系统权限、通知、登录项和用户选择的 iCloud Drive 文件夹由操作系统管理。无内置跨设备云端合并或手机推送。
+应用核心记录保存在本机，不要求账户。Mac 数据位于 `~/Library/Application Support/EyeWatch/`，Windows 位于 `%APPDATA%/BreatherWindows/`。不记录输入文字，不使用摄像头；可选屏幕变化检测在内存中处理低分辨率差异，不保存录像。系统权限、通知和登录项由操作系统管理。Mac 可自愿选择自动备份文件夹，约每 30 秒及关键操作时更新备份；若选择 iCloud Drive 等云盘文件夹，操作系统可能自动同步其中的文件。应用没有内置账号型跨设备同步、记录自动合并或手机推送。
 
 官网为无第三方脚本的静态页面；GitHub 托管／下载服务仍可能记录其基础访问日志。
 

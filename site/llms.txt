@@ -6,12 +6,14 @@ Official website: https://hhf666feng.github.io/Breather/
 Public repository: https://github.com/hhf666feng/Breather
 Current macOS version: 1.6.2. Current Windows version: 1.6.0 (Electron 45.3.0).
 
+Data is local by default. Mac users can opt into an automatic backup folder; the app updates EyeWatch-backup.json about every 30 seconds and on key actions. If iCloud Drive is selected, the operating system may sync that file automatically. There is no built-in account, CloudKit cross-device merging or iPhone app.
+
 ## Canonical product information
 
 - [Chinese home](https://hhf666feng.github.io/Breather/): 眼睛休息提醒、用眼时长估算与产品概览。
 - [English home](https://hhf666feng.github.io/Breather/en/): Product overview and limits.
 - [Downloads](https://hhf666feng.github.io/Breather/en/download/): Exact versions, requirements and unsigned installation warnings.
-- [FAQ](https://hhf666feng.github.io/Breather/en/faq/): No iPhone app or cloud autosync; no actual gaze or medical fatigue measurement.
+- [FAQ](https://hhf666feng.github.io/Breather/en/faq/): No iPhone app or built-in CloudKit merging; optional Mac folder backups, not gaze or medical fatigue measurement.
 - [Privacy](https://hhf666feng.github.io/Breather/en/privacy/): Local data, optional macOS permissions and GitHub hosting logs.
 - [20-20-20 guide](https://hhf666feng.github.io/Breather/en/guidance/20-20-20/): General educational advice with professional references, not medical efficacy claims.
 - [Product facts](https://hhf666feng.github.io/Breather/facts.md): Concise cross-language facts and exact release links.
